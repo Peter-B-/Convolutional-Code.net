@@ -12,10 +12,12 @@ namespace Convolutional.Logic
                 Registers = asList;
             else
                 Registers = values.ToList();
+
+            State = new State(Registers.Take(Registers.Count - 1));
         }
 
         public IReadOnlyList<bool> Registers { get; }
-        public IEnumerable<bool> States => Registers.Take(Registers.Count - 1);
+        public State State { get; }
 
         public IEnumerable<bool> GetOutput(CodeConfig config)
         {
@@ -52,9 +54,6 @@ namespace Convolutional.Logic
             );
         }
 
-        public override string ToString()
-        {
-            return Registers.Format();
-        }
+        public override string ToString() => Registers.Format();
     }
 }

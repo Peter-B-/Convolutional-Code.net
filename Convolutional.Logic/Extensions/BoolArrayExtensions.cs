@@ -33,8 +33,18 @@ namespace Convolutional.Logic.Extensions
 
         public static IEnumerable<bool> GetBools(this int number, int boolCount = 32)
         {
-            var bv = new BitArray(new []{number});
-            return bv.Cast<bool>().Take(boolCount);
+            var ba = new BitArray(new []{number});
+            return ba.Cast<bool>().Take(boolCount);
+        }
+
+        public static int GetInt(this IReadOnlyList<bool> bools)
+        {
+            if (bools.Count > 32) throw new InvalidOperationException("bools must not have more than 32 elements");
+
+            var ba = new BitArray(bools.ToArray());
+            var target = new int[1];
+            ba.CopyTo(target, 0);
+            return target[0];
         }
 
     }

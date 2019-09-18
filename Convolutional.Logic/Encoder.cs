@@ -32,7 +32,7 @@ namespace Convolutional.Logic
 
 
             if (terminateCode)
-                while (stateReg.States.Any(s => s))
+                while (stateReg.State.Values.Any(s => s))
                 {
                     stateReg = stateReg.Shift(false);
 

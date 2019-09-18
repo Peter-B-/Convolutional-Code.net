@@ -9,9 +9,14 @@ namespace ConvolutionalTest
     {
         static void Main(string[] args)
         {
-            var encoder = new Encoder(CodeConfig.Default4, true);
+            var config = CodeConfig.Default4;
+            var encoder = new Encoder(config, true);
 
-            var rand = new Random();
+
+            var transitions = config.EnumerateTransitions();
+            foreach (var trans in transitions)
+                Console.WriteLine(trans);
+
 
             var input = 0xFFFF.GetBools(19);
             //var input = rand.Next(0, 0x10000).GetBools(16);
