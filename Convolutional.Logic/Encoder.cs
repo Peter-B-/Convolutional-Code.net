@@ -6,35 +6,44 @@ namespace Convolutional.Logic
 {
     public class Encoder
     {
-        public bool[] GeneratorBottom = {true, false, false, true};
-        public bool[] GeneratorTop = {true, true, true, true};
+        private readonly CodeConfig config;
+        private readonly bool terminateCode;
+
+        public Encoder(CodeConfig config, bool terminateCode)
+        {
+            this.config = config;
+            this.terminateCode = terminateCode;
+        }
 
         public IReadOnlyList<bool> Encode(IEnumerable<bool> input)
         {
-            return DoEncode(input).ToList();
-        }
+            var inputList = input as IReadOnlyList<bool> ?? input.ToList();
 
-        private IEnumerable<bool> DoEncode(IEnumerable<bool> input)
-        {
-            var stateReg = StateRegister.CreateInitial(GeneratorTop.Length);
+            var result = new List<bool>(GetResultLength(inputList));
 
-            foreach (var i in input)
+            var stateReg = StateRegister.CreateInitial(config.NoOfRegisters);
+
+            foreach (var i in inputList)
             {
                 stateReg = stateReg.Shift(i);
 
-                yield return stateReg.Mod2Add(GeneratorTop);
-                yield return stateReg.Mod2Add(GeneratorBottom);
+                result.AddRange(stateReg.GetOutput(config));
             }
 
 
-            while (stateReg.States.Any(s => s))
-            {
-                stateReg = stateReg.Shift(false);
+            if (terminateCode)
+                while (stateReg.States.Any(s => s))
+                {
+                    stateReg = stateReg.Shift(false);
 
-                yield return stateReg.Mod2Add(GeneratorTop);
-                yield return stateReg.Mod2Add(GeneratorBottom);
-            }
+                    result.AddRange(stateReg.GetOutput(config));
+                }
 
+
+            return result;
         }
+
+        private int GetResultLength(IReadOnlyList<bool> inputList) =>
+            inputList.Count + (terminateCode ? config.NoOfRegisters : 0) * 2;
     }
 }

@@ -8,9 +8,9 @@ namespace Convolutional.Logic.Extensions
 {
     public static class BoolArrayExtensions
     {
-        public static string Format(this IEnumerable<bool> bools)
+        public static string Format(this IEnumerable<bool> bools,char trueChar = '1', char falseChar = '0')
         {
-            return string.Concat(bools.Select(b => b ? '1' : '0'));
+            return string.Concat(bools.Select(b => b ? trueChar : falseChar));
         }
 
         public static IEnumerable<bool> ParseBools(this string input)

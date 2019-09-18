@@ -6,13 +6,13 @@ namespace Convolutional.Logic.Tests
 {
     public class EncoderTests
     {
-        private Encoder Encoder => new Encoder();
+        private Encoder GetEncoder(bool terminateCode) => new Encoder(CodeConfig.Default3, terminateCode);
 
         [Fact]
-        public void TestExample()
+        public void NoTermination()
         {
             var input =new [] {true, false, true, true, false};
-            var res = Encoder.Encode(input);
+            var res = GetEncoder(false).Encode(input);
 
             res.ShouldBe(new []
             {
@@ -21,6 +21,23 @@ namespace Convolutional.Logic.Tests
                 false, false, 
                 false, true,
                 false, true,
+            });
+        }
+
+        [Fact]
+        public void WithTermination()
+        {
+            var input = new[] { true, false, true, true, false };
+            var res = GetEncoder(true).Encode(input);
+
+            res.ShouldBe(new[]
+            {
+                true, true,
+                true, false,
+                false, false,
+                false, true,
+                false, true,
+                true, true
             });
         }
 
