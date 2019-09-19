@@ -36,7 +36,10 @@ namespace Convolutional.Logic
         public IReadOnlyList<bool> Values { get; }
 
         public static State Parse(string input) => new State(input.ParseBools());
+        public static State Zero(int noOfStates) => new State(Enumerable.Repeat(false, noOfStates));
 
         public override string ToString() => Values.Format();
+
+        public static State Zero(State template) => Zero(template.Values.Count);
     }
 }
