@@ -10,13 +10,22 @@ If you have any thoughts on the code or even a PR, please let me know.
 var input = "10110".ParseBools();
 
 var config = CodeConfig.Default3;
-var encoder = new Encoder(config, true);
+var encoder = new Encoder(config, terminateCode: false);
 var viterbi = Viterbi.CreateWithHammingDistance(config);
 
 var output = encoder.Encode(input);
 var restored = viterbi.Solve(output);
 
-Console.WriteLine("Input: " + input.Format());
-Console.WriteLine("Encoded: " + output.Format());
+Console.WriteLine("Input:    " + input.Format());
+Console.WriteLine("Encoded:  " + output.Format());
 Console.WriteLine("Restored: " + restored.Format());
 ```
+
+This will produce:
+```
+Input:    10110
+Encoded:  1110000101
+Restored: 10110
+```
+
+The logic is written as a .Net Standard 2.0 dll and should be easy to reference from any project.

@@ -34,16 +34,15 @@ namespace ConvolutionalTest
             var config = CodeConfig.Default3;
 
             var input = "10110".ParseBools();
-            Console.WriteLine("Input: " + input.Format());
 
-            var encoder = new Encoder(config, true);
+            var encoder = new Encoder(config, terminateCode: false);
             var output = encoder.Encode(input);
-            Console.WriteLine("Encoded: " + output.Format());
 
             var viterbi = Viterbi.CreateWithHammingDistance(config);
             var restored = viterbi.Solve(output);
 
-            Console.WriteLine();
+            Console.WriteLine("Input:    " + input.Format());
+            Console.WriteLine("Encoded:  " + output.Format());
             Console.WriteLine("Restored: " + restored.Format());
             Console.WriteLine();
         }
