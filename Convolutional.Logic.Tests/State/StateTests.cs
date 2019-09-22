@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Net.Http.Headers;
 using Shouldly;
 using Xunit;
 
@@ -27,19 +26,18 @@ namespace Convolutional.Logic.Tests
         {
             yield return new object[] {State.Parse("101"), State.Parse("101")};
             yield return new object[] {State.Parse("110011"), State.Parse("110011")};
-            yield return new object[] { State.Parse("1"), State.Parse("1") };
-            yield return new object[] { State.Parse("0101"), State.Parse("0101") };
+            yield return new object[] {State.Parse("1"), State.Parse("1")};
+            yield return new object[] {State.Parse("0101"), State.Parse("0101")};
         }
 
         public static IEnumerable<object[]> UnequalStates()
         {
-            yield return new object[] { State.Parse("101"), State.Parse("111") };
-            yield return new object[] { State.Parse("110010"), State.Parse("010011") };
-            yield return new object[] { State.Parse("1"), State.Parse("0") };
+            yield return new object[] {State.Parse("101"), State.Parse("111")};
+            yield return new object[] {State.Parse("110010"), State.Parse("010011")};
+            yield return new object[] {State.Parse("1"), State.Parse("0")};
 
-            yield return new object[] { State.Parse("1010"), State.Parse("010") };
-            yield return new object[] { State.Parse("1010"), State.Parse("101") };
+            yield return new object[] {State.Parse("1010"), State.Parse("010")};
+            yield return new object[] {State.Parse("1010"), State.Parse("101")};
         }
-
     }
 }

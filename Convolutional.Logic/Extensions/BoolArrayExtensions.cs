@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Linq;
 
 namespace Convolutional.Logic.Extensions
 {
     public static class BoolArrayExtensions
     {
-        public static string Format(this IEnumerable<bool> bools,char trueChar = '1', char falseChar = '0')
+        public static string Format(this IEnumerable<bool> bools, char trueChar = '1', char falseChar = '0')
         {
             return string.Concat(bools.Select(b => b ? trueChar : falseChar));
         }
@@ -16,7 +15,6 @@ namespace Convolutional.Logic.Extensions
         public static IEnumerable<bool> ParseBools(this string input)
         {
             foreach (var c in input)
-            {
                 switch (c)
                 {
                     case '0':
@@ -28,12 +26,11 @@ namespace Convolutional.Logic.Extensions
                     default:
                         throw new ArgumentException($"Invalid input character '{c}'", nameof(input));
                 }
-            }
         }
 
         public static IEnumerable<bool> GetBools(this int number, int boolCount = 32)
         {
-            var ba = new BitArray(new []{number});
+            var ba = new BitArray(new[] {number});
             return ba.Cast<bool>().Take(boolCount);
         }
 
@@ -46,6 +43,5 @@ namespace Convolutional.Logic.Extensions
             ba.CopyTo(target, 0);
             return target[0];
         }
-
     }
 }

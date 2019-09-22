@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using Convolutional.Logic.Extensions;
 
 namespace Convolutional.Logic
 {
@@ -12,7 +10,8 @@ namespace Convolutional.Logic
         private readonly IReadOnlyDictionary<State, IReadOnlyList<Transition>> transitionDict;
         private readonly IReadOnlyList<Transition> transitions;
 
-        public Viterbi(IEnumerable<Transition> transitions, Func<IEnumerable<bool>, IEnumerable<bool>, double> calcScore)
+        public Viterbi(IEnumerable<Transition> transitions,
+            Func<IEnumerable<bool>, IEnumerable<bool>, double> calcScore)
         {
             this.calcScore = calcScore;
             this.transitions = transitions as IReadOnlyList<Transition> ?? transitions.ToList();
@@ -30,7 +29,12 @@ namespace Convolutional.Logic
         public IReadOnlyList<bool> Solve(IEnumerable<bool> observations)
         {
             var states = TrellisDecode(observations);
+            var results = FindBestPath(states);
+            return results;
+        }
 
+        private static List<bool> FindBestPath(IReadOnlyList<TrellisState> states)
+        {
             var results = new List<bool>(states.Count);
 
             var state = states[states.Count - 1].StateInfos
@@ -38,7 +42,7 @@ namespace Convolutional.Logic
                 .First();
             results.Add(state.Input);
 
-            for (var i = states.Count-2; i >= 0; i--)
+            for (var i = states.Count - 2; i >= 0; i--)
             {
                 state = states[i].StateInfos.Single(si => si.State.Equals(state.PreviousState));
                 results.Add(state.Input);
@@ -48,7 +52,7 @@ namespace Convolutional.Logic
             return results;
         }
 
-        public IReadOnlyList<TrellisState> TrellisDecode(IEnumerable<bool> observations)
+        private IReadOnlyList<TrellisState> TrellisDecode(IEnumerable<bool> observations)
         {
             var obsList = observations.Buffer(2).ToList();
             var results = new List<TrellisState>(obsList.Count);
@@ -84,48 +88,13 @@ namespace Convolutional.Logic
                     });
             return transitions;
         }
-    }
 
-    public class TrellisState
-    {
-        public TrellisState(int generation, IReadOnlyList<TrellisStateInfo> stateInfos)
+        public static Viterbi CreateWithHammingDistance(CodeConfig codeConfig)
         {
-            Generation = generation;
-            StateInfos = stateInfos;
-        }
+            var transitions = codeConfig.EnumerateTransitions();
+            var viterbi = new Viterbi(transitions, HammingDistance.Calculate);
 
-        public int Generation { get; }
-        public IReadOnlyList<TrellisStateInfo> StateInfos { get; }
-
-        public override string ToString()
-        {
-            return string.Join(
-                Environment.NewLine,
-                StateInfos.Select(s => s.ToString())
-                    .Prepend($"Gen {Generation}:")
-            );
-
-        }
-    }
-
-    public class TrellisStateInfo
-    {
-        public TrellisStateInfo(State previousState, State state, double score, bool input)
-        {
-            PreviousState = previousState;
-            State = state;
-            Score = score;
-            Input = input;
-        }
-
-        public State State { get; }
-        public State PreviousState { get; }
-        public double Score { get; }
-        public bool Input { get; }
-
-        public override string ToString()
-        {
-            return $"{PreviousState}|{(Input?"1":"0")} => {State} ({Score})";
+            return viterbi;
         }
     }
 }

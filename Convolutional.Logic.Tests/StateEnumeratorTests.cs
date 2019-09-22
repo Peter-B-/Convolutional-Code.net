@@ -36,9 +36,9 @@ namespace Convolutional.Logic.Tests
 
         public static IEnumerable<object[]> StateData()
         {
-            yield return new object[] { CodeConfig.Default3, new []{"00", "01", "10", "11"} };
-            yield return new object[] { CodeConfig.Default4, new[] { "000", "001", "010", "011", "100", "101", "110", "111" } };
+            yield return new object[] {CodeConfig.Default3, new[] {"00", "01", "10", "11"}};
+            yield return new object[]
+                {CodeConfig.Default4, new[] {"000", "001", "010", "011", "100", "101", "110", "111"}};
         }
-
     }
 }

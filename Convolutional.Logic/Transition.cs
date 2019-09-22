@@ -6,9 +6,10 @@ namespace Convolutional.Logic
 {
     public class Transition
     {
-        public Transition(IEnumerable<bool> initialState, bool input, IEnumerable<bool> output, IEnumerable<bool> newState)
+        public Transition(IEnumerable<bool> initialState, bool input, IEnumerable<bool> output,
+            IEnumerable<bool> newState)
         {
-            InitialState = new State( initialState);
+            InitialState = new State(initialState);
             Input = input;
             Output = output.ToList();
             NewState = new State(newState);
@@ -21,7 +22,7 @@ namespace Convolutional.Logic
 
         public override string ToString()
         {
-            return $"{InitialState}|{(Input?'1':'0')} => {NewState}|{Output.Format()}";
+            return $"{InitialState}|{(Input ? '1' : '0')} => {NewState}|{Output.Format()}";
         }
     }
 }

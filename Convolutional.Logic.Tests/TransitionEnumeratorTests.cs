@@ -8,6 +8,14 @@ namespace Convolutional.Logic.Tests
 {
     public class TransitionEnumeratorTests
     {
+        private static void AssertTransition(IReadOnlyList<Transition> transitions, string initial, bool input,
+            string expectedState, string expectedOutput)
+        {
+            var transition = transitions.Single(t => t.InitialState.Equals(State.Parse(initial)) && t.Input == input);
+            transition.Output.Format().ShouldBe(expectedOutput);
+            transition.NewState.ShouldBe(State.Parse(expectedState));
+        }
+
         [Fact]
         public void TestDefault3()
         {
@@ -23,13 +31,6 @@ namespace Convolutional.Logic.Tests
             AssertTransition(transitions, "10", true, "11", "01");
             AssertTransition(transitions, "11", false, "01", "01");
             AssertTransition(transitions, "11", true, "11", "10");
-        }
-
-        private static void AssertTransition(IReadOnlyList<Transition> transitions, string initial, bool input, string expectedState, string expectedOutput)
-        {
-            var transition = transitions.Single(t => t.InitialState.Equals(State.Parse(initial)) && t.Input == input);
-            transition.Output.Format().ShouldBe(expectedOutput);
-            transition.NewState.ShouldBe(State.Parse(expectedState));
         }
     }
 }

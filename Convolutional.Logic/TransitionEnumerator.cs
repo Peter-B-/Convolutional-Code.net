@@ -7,12 +7,11 @@ namespace Convolutional.Logic
     {
         public static IEnumerable<Transition> EnumerateTransitions(this CodeConfig config)
         {
-            return 
+            return
                 config.EnumerateStates()
                     .SelectMany(state =>
                         new[] {false, true}
                             .Select(input =>
-
                                 CalculateTransition(state, input, config))
                     )
                     .ToList();

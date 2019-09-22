@@ -1,5 +1,4 @@
-﻿using System;
-using Shouldly;
+﻿using Shouldly;
 using Xunit;
 
 namespace Convolutional.Logic.Tests
@@ -11,23 +10,23 @@ namespace Convolutional.Logic.Tests
         [Fact]
         public void NoTermination()
         {
-            var input =new [] {true, false, true, true, false};
+            var input = new[] {true, false, true, true, false};
             var res = GetEncoder(false).Encode(input);
 
-            res.ShouldBe(new []
+            res.ShouldBe(new[]
             {
                 true, true,
                 true, false,
-                false, false, 
+                false, false,
                 false, true,
-                false, true,
+                false, true
             });
         }
 
         [Fact]
         public void WithTermination()
         {
-            var input = new[] { true, false, true, true, false };
+            var input = new[] {true, false, true, true, false};
             var res = GetEncoder(true).Encode(input);
 
             res.ShouldBe(new[]
@@ -40,6 +39,5 @@ namespace Convolutional.Logic.Tests
                 true, true
             });
         }
-
     }
 }
