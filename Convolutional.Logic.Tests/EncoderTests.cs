@@ -5,7 +5,7 @@ namespace Convolutional.Logic.Tests
 {
     public class EncoderTests
     {
-        private Encoder GetEncoder(bool terminateCode) => new Encoder(CodeConfig.Default3, terminateCode);
+        private Encoder GetEncoder(bool terminateCode) => new Encoder(CodeConfig.Size3_7_5, terminateCode);
 
         [Fact]
         public void NoTermination()

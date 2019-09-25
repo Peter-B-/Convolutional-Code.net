@@ -19,7 +19,7 @@ namespace Convolutional.Logic.Tests
         [Fact]
         public void TestDefault3()
         {
-            var config = CodeConfig.Default3;
+            var config = CodeConfig.Size3_7_5;
 
             var transitions = config.EnumerateTransitions() as IReadOnlyList<Transition>;
 

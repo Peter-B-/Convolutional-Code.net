@@ -7,18 +7,22 @@ The project is still at it's beginnings, but there is a test program included, t
 If you have any thoughts on the code or even a PR, please let me know.
 
 ```csharp
+var config = CodeConfig.Size3_7_5;
+
 var input = "10110".ParseBools();
 
-var config = CodeConfig.Default3;
 var encoder = new Encoder(config, terminateCode: false);
-var viterbi = Viterbi.CreateWithHammingDistance(config);
-
 var output = encoder.Encode(input);
+
+var viterbi = Viterbi.CreateWithHammingDistance(config);
 var restored = viterbi.Solve(output);
 
+Console.WriteLine("Configuration: " + config);
+Console.WriteLine();
 Console.WriteLine("Input:    " + input.Format());
 Console.WriteLine("Encoded:  " + output.Format());
 Console.WriteLine("Restored: " + restored.Format());
+Console.WriteLine();
 ```
 
 This will produce:

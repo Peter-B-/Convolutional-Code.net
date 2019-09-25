@@ -30,15 +30,15 @@ namespace Convolutional.Logic.Tests
 
         public static IEnumerable<object[]> CountData()
         {
-            yield return new object[] {CodeConfig.Default3, 4};
-            yield return new object[] {CodeConfig.Default4, 8};
+            yield return new object[] {CodeConfig.Size3_7_5, 4};
+            yield return new object[] {CodeConfig.Size4_15_11, 8};
         }
 
         public static IEnumerable<object[]> StateData()
         {
-            yield return new object[] {CodeConfig.Default3, new[] {"00", "01", "10", "11"}};
+            yield return new object[] {CodeConfig.Size3_7_5, new[] {"00", "01", "10", "11"}};
             yield return new object[]
-                {CodeConfig.Default4, new[] {"000", "001", "010", "011", "100", "101", "110", "111"}};
+                {CodeConfig.Size4_15_11, new[] {"000", "001", "010", "011", "100", "101", "110", "111"}};
         }
     }
 }
