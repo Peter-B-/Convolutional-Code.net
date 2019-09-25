@@ -11,5 +11,13 @@ namespace Convolutional.Logic
                 first.Zip(second, (a, b) => a != b)
                     .Count(different => different);
         }
+
+        public static double Calculate(IEnumerable<bool> first, IEnumerable<double> second)
+        {
+            return
+                first.Zip(second, (a, b) => a != (b > 0.5))
+                    .Count(different => different);
+        }
+
     }
 }
