@@ -21,7 +21,7 @@ namespace Convolutional.Logic.Tests
         [MemberData(nameof(StateData))]
         public void CheckStates(CodeConfig config, IEnumerable<string> expected)
         {
-            var states = config.EnumerateStates();
+            var states = config.EnumerateStates().ToList();
 
             states
                 .Select(s => s.State.Values.Format())
@@ -31,14 +31,14 @@ namespace Convolutional.Logic.Tests
         public static IEnumerable<object[]> CountData()
         {
             yield return new object[] {CodeConfig.Size3_7_5, 4};
-            yield return new object[] {CodeConfig.Size4_15_11, 8};
+            yield return new object[] {CodeConfig.Size4_f_b, 8};
         }
 
         public static IEnumerable<object[]> StateData()
         {
             yield return new object[] {CodeConfig.Size3_7_5, new[] {"00", "01", "10", "11"}};
             yield return new object[]
-                {CodeConfig.Size4_15_11, new[] {"000", "001", "010", "011", "100", "101", "110", "111"}};
+                {CodeConfig.Size4_f_b, new[] {"000", "001", "010", "011", "100", "101", "110", "111"}};
         }
     }
 }

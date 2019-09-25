@@ -17,7 +17,7 @@ namespace Convolutional.Logic.Tests
         }
 
         [Fact]
-        public void TestDefault3()
+        public void TestSize3_7_5()
         {
             var config = CodeConfig.Size3_7_5;
 

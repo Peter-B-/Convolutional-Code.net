@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿
+using System.Collections.Generic;
+using System.Linq;
 using Convolutional.Logic.Extensions;
 
 namespace Convolutional.Logic
@@ -8,7 +10,7 @@ namespace Convolutional.Logic
         public static IEnumerable<StateRegister> EnumerateStates(this CodeConfig config)
         {
             for (var i = 0; i < 1 << config.NoOfStateRegisters; i++)
-                yield return StateRegister.Create(i.GetBools(config.NoOfRegisters));
+                yield return StateRegister.Create(i.GetBools(config.NoOfRegisters).Reverse());
         }
     }
 }

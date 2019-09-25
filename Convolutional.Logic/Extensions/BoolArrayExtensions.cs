@@ -30,17 +30,24 @@ namespace Convolutional.Logic.Extensions
                 }
         }
 
+        /// <summary>
+        /// Gets a given no of booleans that represent the binary value of number.
+        /// The LSB is returned first. 10 => 0b1010 => [true, false, true, false]
+        /// </summary>
+        /// <param name="number"></param>
+        /// <param name="boolCount"></param>
+        /// <returns></returns>
         public static IEnumerable<bool> GetBools(this int number, int boolCount = 32)
         {
             var ba = new BitArray(new[] {number});
-            return ba.Cast<bool>().Take(boolCount);
+            return ba.Cast<bool>().Take(boolCount).Reverse();
         }
 
         public static int GetInt(this IReadOnlyList<bool> bools)
         {
             if (bools.Count > 32) throw new InvalidOperationException("bools must not have more than 32 elements");
 
-            var ba = new BitArray(bools.ToArray());
+            var ba = new BitArray(bools.Reverse().ToArray());
             var target = new int[1];
             ba.CopyTo(target, 0);
             return target[0];

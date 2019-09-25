@@ -48,7 +48,6 @@ namespace Convolutional.Logic
         {
             return new StateRegister(
                 Registers
-                    .AsEnumerable()
                     .Prepend(input)
                     .Take(Registers.Count)
             );
