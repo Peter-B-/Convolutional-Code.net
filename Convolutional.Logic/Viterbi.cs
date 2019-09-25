@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Convolutional.Logic.Extensions;
+using Convolutional.Logic.Scoring;
 
 namespace Convolutional.Logic
 {

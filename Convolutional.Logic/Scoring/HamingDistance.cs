@@ -1,23 +1,25 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
-namespace Convolutional.Logic
+namespace Convolutional.Logic.Scoring
 {
-    public class HammingDistance
+    public static class HammingDistance
     {
         public static double Calculate(IEnumerable<bool> first, IEnumerable<bool> second)
         {
             return
-                first.Zip(second, (a, b) => a != b)
+                // ReSharper disable once InvokeAsExtensionMethod
+                Enumerable.Zip(first, second, (a, b) => a != b)
                     .Count(different => different);
         }
 
         public static double Calculate(IEnumerable<bool> first, IEnumerable<double> second)
         {
             return
-                first.Zip(second, (a, b) => a != (b > 0.5))
+                // ReSharper disable once InvokeAsExtensionMethod
+                Enumerable.Zip(first, second, (a, b) => a != b > 0.5)
                     .Count(different => different);
         }
-
     }
 }
