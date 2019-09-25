@@ -23,6 +23,8 @@ namespace Convolutional.Logic.Extensions
                     case '1':
                         yield return true;
                         break;
+                    case ' ':
+                        break;
                     default:
                         throw new ArgumentException($"Invalid input character '{c}'", nameof(input));
                 }
