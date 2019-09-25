@@ -19,5 +19,21 @@ namespace Convolutional.Logic.Tests.Extensions
 
             res.ShouldBe(no);
         }
+
+        [Theory]
+        [InlineData(1, 1, "1")]
+        [InlineData(1, 8, "00000001")]
+        [InlineData(8, 4, "1000")]
+        [InlineData(10, 4, "1010")]
+        [InlineData(15, 4, "1111")]
+        [InlineData(354987, 20, "01010110101010101011")]
+        public void GetBools(int no, int count, string expected)
+        {
+            var bools = no.GetBools(count).ToList();
+
+
+            bools.Format().ShouldBe(expected);
+        }
+
     }
 }
