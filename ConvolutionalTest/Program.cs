@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Convolutional.Logic;
 using Convolutional.Logic.Extensions;
 
@@ -8,9 +9,11 @@ namespace ConvolutionalTest
     {
         private static void Main(string[] args)
         {
-            var config = CodeConfig.Size3_7_5;
+            var config = CodeConfig.Size7_6d_4f;
 
-            var input = "10110".ParseBools();
+            var input = 15003.GetBools(14)
+                .Concat(Enumerable.Repeat(false, 6));
+            //var input = "11101010011011".ParseBools();
 
             var encoder = new Encoder(config, terminateCode: false);
             var output = encoder.Encode(input);
