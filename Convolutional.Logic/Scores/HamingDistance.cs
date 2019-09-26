@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace Convolutional.Logic.Scores.Scoring
+namespace Convolutional.Logic.Scores
 {
     public static class HammingDistance
     {

@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Convolutional.Logic.Scores.Scoring;
+using Convolutional.Logic.Scores;
 using Shouldly;
 using Xunit;
 

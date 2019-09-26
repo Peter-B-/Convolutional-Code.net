@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using Convolutional.Logic.Scores.Scoring;
+using Convolutional.Logic.Scores;
 using Shouldly;
 using Xunit;
 

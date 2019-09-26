@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Convolutional.Logic.Extensions;
-using Convolutional.Logic.Scores.Scoring;
+using Convolutional.Logic.Scores;
 using Shouldly;
 using Xunit;
 
