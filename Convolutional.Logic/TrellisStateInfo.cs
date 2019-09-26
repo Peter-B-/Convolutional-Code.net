@@ -17,7 +17,7 @@
 
         public override string ToString()
         {
-            return $"{PreviousState}|{(Input ? "1" : "0")} => {State} ({Score})";
+            return $"{PreviousState}|{(Input ? "1" : "0")} => {State} (Score {Score:F2})";
         }
     }
 }
