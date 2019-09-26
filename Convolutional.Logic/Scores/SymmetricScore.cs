@@ -37,7 +37,7 @@ namespace Convolutional.Logic.Scores
         /// <summary>
         /// A symmetric scoring function that is well suited for inputs from 0.0 (false) to 255.0 (true).
         /// </summary>
-        public static SymmetricScore Range_0_255 => new SymmetricScore(0.04, -128);
+        public static SymmetricScore Range_0_255 => new SymmetricScore(0.04, 128);
 
     }
 }
