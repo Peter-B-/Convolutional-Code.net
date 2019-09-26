@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Convolutional.Logic.Scoring
+namespace Convolutional.Logic.Scores.Scoring
 {
     public class LogisticFunction
     {

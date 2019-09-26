@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Convolutional.Logic.Scoring
+namespace Convolutional.Logic.Scores.Scoring
 {
-    public class SymetricScore
+    public class SymmetricScore
     {
         private readonly double steepness;
         private readonly double center;
 
-        public SymetricScore(double steepness = 6.0, double center = 0.0)
+        private SymmetricScore(double steepness , double center )
         {
             this.steepness = steepness;
             this.center = center;
@@ -28,5 +28,16 @@ namespace Convolutional.Logic.Scoring
                     )
                     .Average();
         }
+
+        /// <summary>
+        /// A symmetric scoring function that is well suited for inputs from -1.0 (false) to 1.0 (true).
+        /// </summary>
+        public static SymmetricScore MinusOneToOne => new SymmetricScore(6.0, 0);
+
+        /// <summary>
+        /// A symmetric scoring function that is well suited for inputs from 0.0 (false) to 255.0 (true).
+        /// </summary>
+        public static SymmetricScore Range_0_255 => new SymmetricScore(0.04, -128);
+
     }
 }

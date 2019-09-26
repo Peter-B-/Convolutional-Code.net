@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Convolutional.Logic.Extensions;
-using Convolutional.Logic.Scoring;
+using Convolutional.Logic.Scores.Scoring;
 using Shouldly;
 using Xunit;
 
@@ -33,7 +33,7 @@ namespace Convolutional.Logic.Tests.Decoding
         {
             yield return new object[]{ (Func<IEnumerable<bool>, IEnumerable<double>, double>)HammingDistance.Calculate,  ScoreMethod.Minimize};
             yield return new object[]{ (Func<IEnumerable<bool>, IEnumerable<double>, double>)new LogisticFunction().CalculateScore,  ScoreMethod.Maximize};
-            yield return new object[]{ (Func<IEnumerable<bool>, IEnumerable<double>, double>)new SymetricScore().CalculateScore,  ScoreMethod.Maximize, -1.0};
+            yield return new object[]{ (Func<IEnumerable<bool>, IEnumerable<double>, double>)SymmetricScore.MinusOneToOne.CalculateScore,  ScoreMethod.Maximize, -1.0};
         }
     }
 }

@@ -7,10 +7,19 @@ namespace Convolutional.Logic.Extensions
 {
     public static class BoolArrayExtensions
     {
-        public static string Format(this IEnumerable<bool> bools, char trueChar = '1', char falseChar = '0')
+        public static string Format(this IEnumerable<bool> bools, char trueChar = '1', char falseChar = '0', int? groupSize = null)
         {
-            return string.Concat(bools.Select(b => b ? trueChar : falseChar));
+            if (groupSize.HasValue)
+                return
+                    bools
+                        .Buffer(groupSize.Value)
+                        .Select(group => group.Select(b => b ? trueChar : falseChar).Concat())
+                        .JoinStrings(" ");
+            else
+                return
+                    bools.Select(b => b ? trueChar : falseChar).Concat();
         }
+
 
         public static IEnumerable<bool> ParseBools(this string input)
         {
@@ -51,6 +60,19 @@ namespace Convolutional.Logic.Extensions
             var target = new int[1];
             ba.CopyTo(target, 0);
             return target[0];
+        }
+    }
+
+    public static class StringExtensions
+    {
+        public static string JoinStrings(this IEnumerable<string> parts, string sep)
+        {
+            return string.Join(sep, parts);
+        }
+
+        public static string Concat(this IEnumerable<char> chars)
+        {
+            return string.Concat(chars);
         }
     }
 }

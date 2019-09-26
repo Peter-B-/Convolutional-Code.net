@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using Convolutional.Logic.Scoring;
+using Convolutional.Logic.Scores.Scoring;
 using Shouldly;
 using Xunit;
 
@@ -23,7 +23,7 @@ namespace Convolutional.Logic.Tests.Scoring
 
         public void Check(bool[] a, double[] b, double expected)
         {
-            var res = new SymetricScore().CalculateScore(a, b);
+            var res = SymmetricScore.MinusOneToOne.CalculateScore(a, b);
             res.ShouldBe(expected, 0.01);
         }
     }
