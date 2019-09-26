@@ -28,10 +28,10 @@ namespace Convolutional.Logic.Tests.Decoding
 
 
             var expected = testCase.Expected.ParseBools();
-            output.WriteLine("Result:   "  +res.Format());
+            output.WriteLine("Result:   "  +res.Message.Format());
             output.WriteLine("Expected: "  +expected.Format());
 
-            res.ShouldBe(expected);
+            res.Message.ShouldBe(expected);
         }
 
         public static IEnumerable<object[]> GetTestCases()

@@ -21,10 +21,11 @@ namespace Convolutional.Logic.Tests.Decoding
 
             var  expected = "1 0 1 1 0 0 0";
 
-            var decoder = new Viterbi<double>(CodeConfig.Size3_7_5.EnumerateTransitions(), calcScore, scoreMethod);
+            var config = CodeConfig.Size3_7_5;
+            var decoder = new Viterbi<double>(config.EnumerateTransitions(), calcScore, new ViterbiConfig(){InitialState = State.Zero(config.NoOfStateRegisters), ScoreMethod =scoreMethod});
             var res = decoder.Solve(input);
 
-            res.ShouldBe(expected.ParseBools());
+            res.Message.ShouldBe(expected.ParseBools());
         }
 
 

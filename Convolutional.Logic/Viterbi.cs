@@ -9,15 +9,16 @@ namespace Convolutional.Logic
     public class Viterbi<TInput>
     {
         private readonly Func<IEnumerable<bool>, IEnumerable<TInput>, double> calcScore;
-        private readonly ScoreMethod scoreMethod;
+        private readonly ViterbiConfig config;
         private readonly IReadOnlyDictionary<State, IReadOnlyList<Transition>> transitionDict;
         private readonly IReadOnlyList<Transition> transitions;
 
         public Viterbi(IEnumerable<Transition> transitions,
-            Func<IEnumerable<bool>, IEnumerable<TInput>, double> calcScore, ScoreMethod scoreMethod)
+            Func<IEnumerable<bool>, IEnumerable<TInput>, double> calcScore, 
+            ViterbiConfig config)
         {
             this.calcScore = calcScore;
-            this.scoreMethod = scoreMethod;
+            this.config = config;
 
             this.transitions = transitions as IReadOnlyList<Transition> ?? transitions.ToList();
 
@@ -31,29 +32,41 @@ namespace Convolutional.Logic
 
         private State ZeroState => State.Zero(transitions.First().InitialState);
 
-        public IReadOnlyList<bool> Solve(IEnumerable<TInput> observations)
+        public ViterbiResult Solve(IEnumerable<TInput> observations)
         {
             var states = TrellisDecode(observations);
             var results = FindBestPath(states);
             return results;
         }
 
-        private List<bool> FindBestPath(IReadOnlyList<TrellisState> states)
+        private ViterbiResult FindBestPath(IReadOnlyList<TrellisState> states)
         {
-            var results = new List<bool>(states.Count);
+            var message = new List<bool>(states.Count);
 
             var state = states[states.Count - 1].StateInfos
-                .GetBestBy(si => si.Score, scoreMethod);
-            results.Add(state.Input);
+                .GetBestBy(si => si.Score, config.ScoreMethod);
+            var bestEndScore = state.Score;
+
+            double? terminationStateScore = null;
+            if (config.TerminationState.HasValue)
+            { state =
+                    states[states.Count - 1].StateInfos
+                        .Single(si => si.State.Equals(config.TerminationState.Value));
+                terminationStateScore = state.Score;
+            }
+
+
+            message.Add(state.Input);
 
             for (var i = states.Count - 2; i >= 0; i--)
             {
                 state = states[i].StateInfos.Single(si => si.State.Equals(state.PreviousState));
-                results.Add(state.Input);
+                message.Add(state.Input);
             }
 
-            results.Reverse();
-            return results;
+            message.Reverse();
+
+            return new ViterbiResult(message, bestEndScore, terminationStateScore);
         }
 
         private IReadOnlyList<TrellisState> TrellisDecode(IEnumerable<TInput> observations)
@@ -71,7 +84,7 @@ namespace Convolutional.Logic
                 var newStates = lastState.StateInfos
                     .SelectMany(si => GetNextPossibleStates(si, observation))
                     .GroupBy(si => si.State)
-                    .Select(gr => gr.GetBestBy( si => si.Score, scoreMethod))
+                    .Select(gr => gr.GetBestBy( si => si.Score, config.ScoreMethod))
                     .ToList();
 
                 lastState = new TrellisState(lastState.Generation + 1, newStates);
@@ -83,24 +96,32 @@ namespace Convolutional.Logic
 
         private IEnumerable<TrellisStateInfo> GetNextPossibleStates(TrellisStateInfo lastState, IList<TInput> observation)
         {
-            var transitions =
+            return
                 transitionDict[lastState.State]
                     .Select(t =>
                     {
                         var score = lastState.Score + calcScore(t.Output, observation);
                         return new TrellisStateInfo(t.InitialState, t.NewState, score, t.Input);
                     });
-            return transitions;
         }
 
     }
 
     public static class Viterbi
     {
-        public static Viterbi<bool> CreateWithHammingDistance(CodeConfig codeConfig)
+        public static Viterbi<bool> CreateWithHammingDistance(CodeConfig codeConfig, bool isTerminated = true)
         {
             var transitions = codeConfig.EnumerateTransitions();
-            var viterbi = new Viterbi<bool>(transitions, HammingDistance.Calculate, ScoreMethod.Minimize);
+            var viterbiConfig = new ViterbiConfig()
+            {
+                InitialState = State.Zero(codeConfig.NoOfStateRegisters),
+                ScoreMethod = ScoreMethod.Minimize,
+            };
+
+            if (isTerminated)
+                viterbiConfig.TerminationState = State.Zero(codeConfig.NoOfStateRegisters);
+
+            var viterbi = new Viterbi<bool>(transitions, HammingDistance.Calculate, viterbiConfig);
 
             return viterbi;
         }

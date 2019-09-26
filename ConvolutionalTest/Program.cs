@@ -25,7 +25,11 @@ namespace ConvolutionalTest
             Console.WriteLine();
             Console.WriteLine("Input:    " + input.Format());
             Console.WriteLine("Encoded:  " + output.Format());
-            Console.WriteLine("Restored: " + restored.Format());
+            Console.WriteLine("Restored: " + restored.Message.Format());
+            Console.Write($"Score:    {restored.BestEndScore:F2}");
+            //if (restored.TerminationStateScore.HasValue)
+                Console.Write($" / {restored.TerminationStateScore:F2}");
+            Console.WriteLine();
             Console.WriteLine();
         }
     }
