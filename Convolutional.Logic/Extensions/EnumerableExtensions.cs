@@ -22,5 +22,14 @@ namespace Convolutional.Logic.Extensions
                     throw new ArgumentOutOfRangeException(nameof(method), method, null);
             }
         }
+
+        public static IEnumerable<T> NonUnique<T>(this IEnumerable<T> source)
+        {
+            return
+                source.GroupBy(x => x)
+                .Where(g => g.Count() > 1)
+                .Select(y => y.Key)
+                ;
+        }
     }
 }
